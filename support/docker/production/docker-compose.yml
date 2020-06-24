@@ -23,27 +23,13 @@ services:
       - ./docker-volume/data:/data
       - ./docker-volume/config:/config
     depends_on:
-      - postgres
       - redis
-      - postfix
     restart: "always"
 
   redis:
     image: redis:4-alpine
     volumes:
       - ./docker-volume/redis:/data
-    restart: "always"
-    labels:
-      traefik.enable: "false"
-
-  postfix:
-    image: mwader/postfix-relay
-    env_file:
-      - .env
-    volumes:
-      - ./docker-volume/opendkim/keys:/etc/opendkim/keys
-    labels:
-      traefik.enable: "false"
     restart: "always"
 
 networks:
