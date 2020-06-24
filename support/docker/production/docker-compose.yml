@@ -2,26 +2,6 @@ version: "3.3"
 
 services:
 
-  reverse-proxy:
-    image: traefik:v1.7
-    network_mode: "host"
-    command:
-      - "--docker" # Tells Træfik to listen to docker
-      - "--acme.email=${TRAEFIK_ACME_EMAIL}" # Let's Encrypt ACME email
-      - "--acme.domains=${TRAEFIK_ACME_DOMAINS}" # Let's Encrypt ACME domain list
-    ports:
-      - "80:80"     # The HTTP port
-      - "443:443"   # The HTTPS port
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-      - ./docker-volume/traefik/acme.json:/etc/acme.json
-      - ./docker-volume/traefik/traefik.toml:/traefik.toml
-    restart: "always"
-    # If you want to use the Traefik dashboard, you should expose it on a
-    # subdomain with HTTPS and authentification:
-    # https://medium.com/@xavier.priour/secure-traefik-dashboard-with-https-and-password-in-docker-5b657e2aa15f
-    # https://github.com/containous/traefik/issues/880#issuecomment-310301168
-
   peertube:
     # If you don't want to use the official image and build one from sources
     # build:
