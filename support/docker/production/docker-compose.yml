@@ -48,16 +48,6 @@ services:
       - postfix
     restart: "always"
 
-  postgres:
-    image: postgres:10-alpine
-    env_file:
-      - .env
-    volumes:
-      - ./docker-volume/db:/var/lib/postgresql/data
-    restart: "always"
-    labels:
-      traefik.enable: "false"
-
   redis:
     image: redis:4-alpine
     volumes:
