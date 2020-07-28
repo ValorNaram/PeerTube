@@ -1,7 +1,6 @@
 version: "3.3"
 
 services:
-
   peertube:
     # If you don't want to use the official image and build one from sources
     # build:
@@ -10,15 +9,9 @@ services:
     image: chocobozzz/peertube:production-buster
     env_file:
       - .env
-    # Traefik labels are suggested as an example for people using Traefik,
-    # remove them if you are using another reverse proxy.
-    labels:
-      traefik.enable: "true"
-      traefik.frontend.rule: "Host:${PEERTUBE_WEBSERVER_HOSTNAME}"
-      traefik.port: "9000"
     # If you don't want to use a reverse proxy (not suitable for production!)
     # ports:
-      # - "80:9000"
+    #   - "80:9000"
     volumes:
       - ./docker-volume/data:/data
       - ./docker-volume/config:/config
