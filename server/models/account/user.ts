@@ -19,7 +19,7 @@ import {
   Table,
   UpdatedAt
 } from 'sequelize-typescript'
-import { hasUserRight, MyUser, USER_ROLE_LABELS, UserRight, VideoAbuseState, VideoPlaylistType, VideoPrivacy } from '../../../shared'
+import { hasUserRight, MyUser, USER_ROLE_LABELS, UserRight, AbuseState, VideoPlaylistType, VideoPrivacy } from '../../../shared'
 import { User, UserRole } from '../../../shared/models/users'
 import {
   isNoInstanceConfigWarningModal,
@@ -168,28 +168,26 @@ enum ScopeNames {
             '(' +
               `SELECT concat_ws(':', "abuses", "acceptedAbuses") ` +
               'FROM (' +
-                'SELECT COUNT("videoAbuse"."id") AS "abuses", ' +
-                       `COUNT("videoAbuse"."id") FILTER (WHERE "videoAbuse"."state" = ${VideoAbuseState.ACCEPTED}) AS "acceptedAbuses" ` +
-                'FROM "videoAbuse" ' +
-                'INNER JOIN "video" ON "videoAbuse"."videoId" = "video"."id" ' +
-                'INNER JOIN "videoChannel" ON "videoChannel"."id" = "video"."channelId" ' +
-                'INNER JOIN "account" ON "account"."id" = "videoChannel"."accountId" ' +
+                'SELECT COUNT("abuse"."id") AS "abuses", ' +
+                       `COUNT("abuse"."id") FILTER (WHERE "abuse"."state" = ${AbuseState.ACCEPTED}) AS "acceptedAbuses" ` +
+                'FROM "abuse" ' +
+                'INNER JOIN "account" ON "account"."id" = "abuse"."flaggedAccountId" ' +
                 'WHERE "account"."userId" = "UserModel"."id"' +
               ') t' +
             ')'
           ),
-          'videoAbusesCount'
+          'abusesCount'
         ],
         [
           literal(
             '(' +
-              'SELECT COUNT("videoAbuse"."id") ' +
-              'FROM "videoAbuse" ' +
-              'INNER JOIN "account" ON "account"."id" = "videoAbuse"."reporterAccountId" ' +
+              'SELECT COUNT("abuse"."id") ' +
+              'FROM "abuse" ' +
+              'INNER JOIN "account" ON "account"."id" = "abuse"."reporterAccountId" ' +
               'WHERE "account"."userId" = "UserModel"."id"' +
             ')'
           ),
-          'videoAbusesCreatedCount'
+          'abusesCreatedCount'
         ],
         [
           literal(
@@ -412,11 +410,18 @@ export class UserModel extends Model<UserModel> {
     return this.count()
   }
 
-  static listForApi (start: number, count: number, sort: string, search?: string) {
-    let where: WhereOptions
+  static listForApi (parameters: {
+    start: number
+    count: number
+    sort: string
+    search?: string
+    blocked?: boolean
+  }) {
+    const { start, count, sort, search, blocked } = parameters
+    const where: WhereOptions = {}
 
     if (search) {
-      where = {
+      Object.assign(where, {
         [Op.or]: [
           {
             email: {
@@ -429,7 +434,13 @@ export class UserModel extends Model<UserModel> {
             }
           }
         ]
-      }
+      })
+    }
+
+    if (blocked !== undefined) {
+      Object.assign(where, {
+        blocked: blocked
+      })
     }
 
     const query: FindOptions = {
@@ -767,8 +778,8 @@ export class UserModel extends Model<UserModel> {
     const videoQuotaUsed = this.get('videoQuotaUsed')
     const videoQuotaUsedDaily = this.get('videoQuotaUsedDaily')
     const videosCount = this.get('videosCount')
-    const [ videoAbusesCount, videoAbusesAcceptedCount ] = (this.get('videoAbusesCount') as string || ':').split(':')
-    const videoAbusesCreatedCount = this.get('videoAbusesCreatedCount')
+    const [ abusesCount, abusesAcceptedCount ] = (this.get('abusesCount') as string || ':').split(':')
+    const abusesCreatedCount = this.get('abusesCreatedCount')
     const videoCommentsCount = this.get('videoCommentsCount')
 
     const json: User = {
@@ -802,14 +813,14 @@ export class UserModel extends Model<UserModel> {
       videosCount: videosCount !== undefined
         ? parseInt(videosCount + '', 10)
         : undefined,
-      videoAbusesCount: videoAbusesCount
-        ? parseInt(videoAbusesCount, 10)
+      abusesCount: abusesCount
+        ? parseInt(abusesCount, 10)
         : undefined,
-      videoAbusesAcceptedCount: videoAbusesAcceptedCount
-        ? parseInt(videoAbusesAcceptedCount, 10)
+      abusesAcceptedCount: abusesAcceptedCount
+        ? parseInt(abusesAcceptedCount, 10)
         : undefined,
-      videoAbusesCreatedCount: videoAbusesCreatedCount !== undefined
-        ? parseInt(videoAbusesCreatedCount + '', 10)
+      abusesCreatedCount: abusesCreatedCount !== undefined
+        ? parseInt(abusesCreatedCount + '', 10)
         : undefined,
       videoCommentsCount: videoCommentsCount !== undefined
         ? parseInt(videoCommentsCount + '', 10)

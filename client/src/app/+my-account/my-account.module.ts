@@ -33,7 +33,6 @@ import { MyAccountVideoPlaylistsComponent } from './my-account-video-playlists/m
 import { MyAccountVideosComponent } from './my-account-videos/my-account-videos.component'
 import { VideoChangeOwnershipComponent } from './my-account-videos/video-change-ownership/video-change-ownership.component'
 import { MyAccountComponent } from './my-account.component'
-import { TopMenuDropdownComponent } from './top-menu-dropdown.component'
 
 @NgModule({
   imports: [
@@ -78,9 +77,7 @@ import { TopMenuDropdownComponent } from './top-menu-dropdown.component'
     MyAccountVideoPlaylistCreateComponent,
     MyAccountVideoPlaylistUpdateComponent,
     MyAccountVideoPlaylistsComponent,
-    MyAccountVideoPlaylistElementsComponent,
-
-    TopMenuDropdownComponent
+    MyAccountVideoPlaylistElementsComponent
   ],
 
   exports: [

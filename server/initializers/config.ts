@@ -20,7 +20,7 @@ const CONFIG = {
     HOSTNAME: config.get<string>('listen.hostname')
   },
   DATABASE: {
-    DBNAME: 'peertube' + config.get<string>('database.suffix'),
+    DBNAME: config.has('database.name') ? config.get<string>('database.name') : 'peertube' + config.get<string>('database.suffix'),
     HOSTNAME: config.get<string>('database.hostname'),
     PORT: config.get<number>('database.port'),
     USERNAME: config.get<string>('database.username'),
@@ -68,7 +68,8 @@ const CONFIG = {
     CAPTIONS_DIR: buildPath(config.get<string>('storage.captions')),
     TORRENTS_DIR: buildPath(config.get<string>('storage.torrents')),
     CACHE_DIR: buildPath(config.get<string>('storage.cache')),
-    PLUGINS_DIR: buildPath(config.get<string>('storage.plugins'))
+    PLUGINS_DIR: buildPath(config.get<string>('storage.plugins')),
+    CLIENT_OVERRIDES_DIR: buildPath(config.get<string>('storage.client_overrides'))
   },
   WEBSERVER: {
     SCHEME: config.get<boolean>('webserver.https') === true ? 'https' : 'http',

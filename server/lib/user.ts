@@ -111,8 +111,9 @@ async function sendVerifyUserEmail (user: MUser, isPendingEmail = false) {
   if (isPendingEmail) url += '&isPendingEmail=true'
 
   const email = isPendingEmail ? user.pendingEmail : user.email
+  const username = user.username
 
-  await Emailer.Instance.addVerifyEmailJob(email, url)
+  await Emailer.Instance.addVerifyEmailJob(username, email, url)
 }
 
 // ---------------------------------------------------------------------------
@@ -133,7 +134,7 @@ function createDefaultUserNotificationSettings (user: MUserId, t: Transaction | 
     newCommentOnMyVideo: UserNotificationSettingValue.WEB,
     myVideoImportFinished: UserNotificationSettingValue.WEB,
     myVideoPublished: UserNotificationSettingValue.WEB,
-    videoAbuseAsModerator: UserNotificationSettingValue.WEB | UserNotificationSettingValue.EMAIL,
+    abuseAsModerator: UserNotificationSettingValue.WEB | UserNotificationSettingValue.EMAIL,
     videoAutoBlacklistAsModerator: UserNotificationSettingValue.WEB | UserNotificationSettingValue.EMAIL,
     blacklistOnMyVideo: UserNotificationSettingValue.WEB | UserNotificationSettingValue.EMAIL,
     newUserRegistration: UserNotificationSettingValue.WEB,

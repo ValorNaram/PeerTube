@@ -7,7 +7,7 @@ $border-color: #EAEAEA;
 $nav-link-height: 40px;
 
 .margin-content {
-  padding-top: 50px;
+  padding-top: 20px;
 }
 
 .alert {
@@ -16,7 +16,7 @@ $nav-link-height: 40px;
 
 ::ng-deep .video-add-nav {
   border-bottom: $border-width $border-type $border-color;
-  margin: 50px 0 0 0 !important;
+  margin: 20px 0 0 0 !important;
 
   &.hide-nav {
     display: none !important;
@@ -30,15 +30,24 @@ $nav-link-height: 40px;
     padding: 0 30px !important;
     font-size: 15px;
 
+    border: $border-width $border-type transparent;
+
+    span {
+      border-bottom: 2px solid transparent;
+    }
+
     &.active {
-      border: $border-width $border-type $border-color;
-      border-bottom: none;
+      border-color: $border-color;
+      border-bottom-color: transparent;
       background-color: pvar(--submenuColor) !important;
 
       span {
-        border-bottom: 2px solid pvar(--mainColor);
-        font-weight: $font-bold;
+        border-bottom-color: pvar(--mainColor);
       }
+    }
+
+    &:hover:not(.active) {
+      border-color: transparent;
     }
   }
 }
@@ -55,7 +64,7 @@ $nav-link-height: 40px;
   padding-bottom: 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding-top: 20px;
 
   &.dragover {
     border: 3px dashed pvar(--mainColor);
@@ -71,7 +80,7 @@ $nav-link-height: 40px;
 
     /* Hide active tab style to not have a moving tab effect */
     a.nav-link.active {
-      border: none;
+      border-color: transparent;
       background-color: pvar(--mainBackgroundColor) !important;
     }
   }

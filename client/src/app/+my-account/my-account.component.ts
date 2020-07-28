@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ServerService } from '@app/core'
 import { I18n } from '@ngx-translate/i18n-polyfill'
 import { ServerConfig } from '@shared/models'
-import { TopMenuDropdownParam } from './top-menu-dropdown.component'
+import { TopMenuDropdownParam } from '../shared/shared-main/misc/top-menu-dropdown.component'
 
 @Component({
   selector: 'my-my-account',
@@ -30,7 +30,7 @@ export class MyAccountComponent implements OnInit {
         {
           label: this.i18n('My channels'),
           routerLink: '/my-account/video-channels',
-          iconName: 'folder'
+          iconName: 'channel'
         },
         {
           label: this.i18n('My videos'),
@@ -69,17 +69,17 @@ export class MyAccountComponent implements OnInit {
         {
           label: this.i18n('Muted accounts'),
           routerLink: '/my-account/blocklist/accounts',
-          iconName: 'user'
+          iconName: 'user-x'
         },
         {
           label: this.i18n('Muted servers'),
           routerLink: '/my-account/blocklist/servers',
-          iconName: 'server'
+          iconName: 'peertube-x'
         },
         {
           label: this.i18n('Ownership changes'),
           routerLink: '/my-account/ownership',
-          iconName: 'im-with-her'
+          iconName: 'download'
         }
       ]
     }

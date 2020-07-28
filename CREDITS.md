@@ -151,6 +151,7 @@
  * Chris Sakura 佐倉くりす on Youtube - 日本語は第二言語やけ、間違っとったら思いっきり叩いてくださいｗ つたない日本語ばっかりやけど頑張りまーす♪
  * Christoph Geschwind
  * Claude
+ * Clifford Garwood II
  * Clément Brizard
  * David Dobryakov
  * DeeJayBro
@@ -162,6 +163,7 @@
  * Fabio Agreles Bezerra
  * Fernandez, ReK2
  * Florian CUNY
+ * Girish Ramakrishnan
  * Glandos
  * Gérald CHATAGNON
  * Haelwenn (lanodan) Monnier
@@ -387,7 +389,8 @@
 
 # Icons
 
- * [Robbie Pearce](https://robbiepearce.com/softies/)
- * [Fork-Awesome](https://github.com/ForkAwesome/Fork-Awesome)
- * `playlist add` by Material UI
- * `language` by Aaron Jin
+ * [Feather Icons](feathericons.com/) (MIT)
+ * `playlist add`, `history`, `subscriptions`, `miscellaneous_services` by Material UI (Apache 2.0)
+ * `support` by Chocobozzz (CC-BY)
+ * `language` by Aaron Jin (CC-BY)
+ * `video-language` by Rigel Kent (CC-BY)

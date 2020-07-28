@@ -1,6 +1,6 @@
 <div class="video-miniature" [ngClass]="{ 'display-as-row': displayAsRow, 'fit-width': fitWidth }" (mouseenter)="loadActions()">
   <my-video-thumbnail
-    [video]="video" [nsfw]="isVideoBlur" [routerLink]="videoLink"
+    [video]="video" [nsfw]="isVideoBlur" [videoRouterLink]="videoRouterLink" [videoHref]="videoHref" [videoTarget]="videoTarget"
     [displayWatchLaterPlaylist]="isWatchLaterPlaylistDisplayed()" [inWatchLaterPlaylist]="inWatchLaterPlaylist" (watchLaterClick)="onWatchLaterClick($event)"
   >
     <ng-container ngProjectAs="label-warning" *ngIf="displayOptions.privacyLabel && isUnlistedVideo()" i18n>Unlisted</ng-container>
@@ -15,10 +15,12 @@
         </a>
 
         <div class="w-100 d-flex flex-column">
-          <a
-            tabindex="-1"
-            class="video-miniature-name"
-            [routerLink]="videoLink" [attr.title]="video.name" [ngClass]="{ 'blur-filter': isVideoBlur }"
+          <a *ngIf="!videoHref" tabindex="-1" class="video-miniature-name"
+            [routerLink]="videoRouterLink" [attr.title]="video.name" [ngClass]="{ 'blur-filter': isVideoBlur }"
+          >{{ video.name }}</a>
+
+          <a *ngIf="videoHref" tabindex="-1" class="video-miniature-name"
+            [href]="videoHref" [target]="videoTarget" [attr.title]="video.name" [ngClass]="{ 'blur-filter': isVideoBlur }"
           >{{ video.name }}</a>
 
           <span class="video-miniature-created-at-views">
@@ -59,7 +61,7 @@
       <!-- FIXME: remove bottom placement when overflow is fixed in bootstrap dropdown: https://github.com/ng-bootstrap/ng-bootstrap/issues/3495 -->
       <my-video-actions-dropdown
         *ngIf="showActions" [video]="video" [displayOptions]="videoActionsDisplayOptions" placement="bottom-left bottom-right left auto"
-        (videoRemoved)="onVideoRemoved()" (videoBlocked)="onVideoBlocked()" (videoUnblocked)="onVideoUnblocked()"
+        (videoRemoved)="onVideoRemoved()" (videoBlocked)="onVideoBlocked()" (videoUnblocked)="onVideoUnblocked()" (videoAccountMuted)="onVideoAccountMuted()"
       ></my-video-actions-dropdown>
     </div>
   </div>
